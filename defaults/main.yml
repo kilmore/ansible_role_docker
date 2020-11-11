@@ -20,3 +20,11 @@ el_docker_ce_prerequisites:
   - docker-ce 
   - docker-ce-cli
   - containerd.io  
+
+docker_insecure_registries: []
+
+docker_no_proxy: ""
+
+docker_http_proxy: ""
+
+docker_https_proxy: ""
