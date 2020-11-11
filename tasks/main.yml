@@ -1,0 +1,9 @@
+- name: Install docker-ce (RedHat OS family)
+  include_tasks: el.yml
+  # when: ansible_os_family == 'RedHat'
+
+# - name: Enable Docker CE service on startup
+#   service:
+#     name: docker
+#     state: started
+#     enabled: yes

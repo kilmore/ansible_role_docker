@@ -1,0 +1,22 @@
+---
+dependencies: []
+
+galaxy_info:
+  role_name: docker
+  author: Butler Nefarious
+  description: Installs Docker CE, supports settings for insecure registries and proxies
+  company: "Currax Systems"
+  license: "license (BSD, MIT)"
+  min_ansible_version: 2.9
+  platforms:
+    - name: EL
+      versions:
+        - 7
+        - 8
+  galaxy_tags:
+    - web
+    - networking
+    - cloud
+    - haproxy
+    - loadbalancer
+    - http

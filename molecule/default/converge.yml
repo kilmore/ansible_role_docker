@@ -1,0 +1,10 @@
+---
+- name: Converge
+  hosts: all
+  tasks:
+    - name: "Include docker"
+      include_role:
+        name: "docker"
+  
+  vars:
+    test: test

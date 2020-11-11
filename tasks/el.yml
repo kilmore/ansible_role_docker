@@ -1,0 +1,45 @@
+---
+- name: Import Docker CE repository gpg key
+  rpm_key:
+    key: https://download.docker.com/linux/centos/gpg
+    state: present
+
+- name: Add Docker CE repository
+  get_url:
+    url: https://download.docker.com/linux/centos/docker-ce.repo
+    dest: /etc/yum.repos.d/docker-ce.repo
+    force: yes
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Remove Existing Docker Components
+  yum: 
+    name: "{{ el_docker_ce_packages_to_remove }}"
+    state: absent
+
+- name: Install Docker CE prerequisite  
+  yum:
+    name: "{{ el_docker_ce_prerequisites }}"
+    state: present
+
+- name: Install Docker CE
+  yum:
+    name: docker-ce
+    state: present
+    update_cache: yes
+
+- name: Ensure Docker is started and enabled on boot.
+  service: name=docker state=started enabled=yes
+
+
+# - name: Configure Docker daemon.json
+
+
+# - name: Configure Docker CE Proxy
+
+
+# - name: Install Docker Compose 
+
+
+
