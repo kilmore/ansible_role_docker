@@ -1,0 +1,11 @@
+{
+      "insecure-registries": [
+       {%- for registry in docker_insecure_registries %}
+            {%- if loop.index != loop.length -%}
+              "{{ registry }}",
+            {%- else -%}
+              "{{ registry }}"
+            {%- endif -%}
+       {% endfor -%}
+    ]
+}

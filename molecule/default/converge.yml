@@ -8,3 +8,10 @@
   
   vars:
     test: test
+    configure_http_proxy: 
+    configure_https_proxy: 
+
+    # docker_insecure_registries:
+    #   - abc.net:8080
+    #   - test.com:5000
+    #   - fairlady.com:8081

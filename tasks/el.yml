@@ -23,6 +23,29 @@
     name: "{{ el_docker_ce_prerequisites }}"
     state: present
 
+- name: Configure daemon.json
+  template: 
+    src: daemon.json.j2
+    dest: /etc/docker/daemon.json
+  notify: restart docker
+
+
+- name: Create the Docker Service Directory
+  file:
+    path: /etc/systemd/system/docker.service.d/
+    state: directory
+  when: configure_http_proxy is defined
+
+- name: Configure HTTP Proxy File 
+  template: 
+    src: http-proxy.conf
+    dest: /etc/systemd/system/docker.service.d/http-proxy.conf
+  notify: restart docker
+  when: configure_http_proxy is defined
+
+
+
+
 - name: Install Docker CE
   yum:
     name: docker-ce
@@ -31,10 +54,6 @@
 
 - name: Ensure Docker is started and enabled on boot.
   service: name=docker state=started enabled=yes
-
-
-# - name: Configure Docker daemon.json
-
 
 # - name: Configure Docker CE Proxy
 
