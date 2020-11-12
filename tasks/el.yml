@@ -23,29 +23,6 @@
     name: "{{ el_docker_ce_prerequisites }}"
     state: present
 
-- name: Configure daemon.json
-  template: 
-    src: daemon.json.j2
-    dest: /etc/docker/daemon.json
-  notify: restart docker
-
-
-- name: Create the Docker Service Directory
-  file:
-    path: /etc/systemd/system/docker.service.d/
-    state: directory
-  when: configure_http_proxy is defined
-
-- name: Configure HTTP Proxy File 
-  template: 
-    src: http-proxy.conf
-    dest: /etc/systemd/system/docker.service.d/http-proxy.conf
-  notify: restart docker
-  when: configure_http_proxy is defined
-
-
-
-
 - name: Install Docker CE
   yum:
     name: docker-ce
@@ -55,8 +32,63 @@
 - name: Ensure Docker is started and enabled on boot.
   service: name=docker state=started enabled=yes
 
-# - name: Configure Docker CE Proxy
+# Create and managed the /etc/docker/daemon.json
+- name: Create etc docker directory
+  file:
+    path: /etc/docker/
+    state: directory
+  when: (insecure_registries is defined) 
 
+- name: Configure daemon.json
+  template: 
+    src: daemon.json.j2
+    dest: /etc/docker/daemon.json
+  when: (insecure_registries is defined) 
+  notify: restart docker
+
+# Create or remove the docker service proxy tower_settings
+# If the proxy settings are present, create the files, other wise remove them 
+- name: Delete the Docker Service Directory
+  file:
+    path: /etc/systemd/system/docker.service.d/
+    state: absent
+  when: (http_proxy is undefined) and (https_proxy is undefined)
+  notify: restart docker
+
+- name: Create the Docker Service Directory
+  file:
+    path: /etc/systemd/system/docker.service.d/
+    state: directory
+  when: (http_proxy is defined) or (https_proxy is defined)
+  notify: restart docker
+
+- name: Configure HTTP Proxy File when defined 
+  template: 
+    src: http-proxy.conf
+    dest: /etc/systemd/system/docker.service.d/http-proxy.conf
+  notify: restart docker
+  when: http_proxy is defined
+
+- name: Remove Configure HTTP Proxy File when not defined
+  file: 
+    path: /etc/systemd/system/docker.service.d/http-proxy.conf
+    state: absent
+  notify: restart docker
+  when: http_proxy is undefined
+
+- name: Configure HTTPS Proxy File when defined
+  template: 
+    src: https-proxy.conf
+    dest: /etc/systemd/system/docker.service.d/https-proxy.conf
+  notify: restart docker
+  when: https_proxy is defined
+
+- name: Configure HTTPS Proxy File when not defined
+  file: 
+    path: /etc/systemd/system/docker.service.d/https-proxy.conf
+    state: absent
+  notify: restart docker
+  when: https_proxy is undefined
 
 # - name: Install Docker Compose 
 

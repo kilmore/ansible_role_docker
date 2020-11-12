@@ -7,11 +7,11 @@
         name: "docker"
   
   vars:
-    test: test
-    configure_http_proxy: 
-    configure_https_proxy: 
+    # http_proxy: http://proxy.lab.home/
+    # https_proxy: http://proxy.lab.home:8080/
+    # no_proxy: "*.dan.com,starwars.com,.lab.home"
 
-    # docker_insecure_registries:
-    #   - abc.net:8080
-    #   - test.com:5000
-    #   - fairlady.com:8081
+    # insecure_registries: []
+      # - abc.net:8080
+      # - test.com:5000
+      # - fairlady.com:8081
