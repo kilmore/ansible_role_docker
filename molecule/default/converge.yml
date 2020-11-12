@@ -7,9 +7,10 @@
         name: "docker"
   
   vars:
-    # http_proxy: http://proxy.lab.home/
-    # https_proxy: http://proxy.lab.home:8080/
-    # no_proxy: "*.dan.com,starwars.com,.lab.home"
+    http_proxy: http://proxy.lab.home/
+    https_proxy: http://proxy.lab.home:8080/
+    no_proxy: "*.dan.com,starwars.com"
+    docker_compose_version: "1.27.4"
 
     # insecure_registries: []
       # - abc.net:8080

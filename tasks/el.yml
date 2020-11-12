@@ -91,6 +91,30 @@
   when: https_proxy is undefined
 
 # - name: Install Docker Compose 
+- name: Install Docker Compose
+  block:
+    - name: Download Docker Compose
+      get_url:
+        url: "https://github.com/docker/compose/releases/download/{{ docker_compose_version }}/docker-compose-Linux-x86_64"
+        dest: /usr/local/bin/docker-compose
+        mode: 0755 
+    
+    - name: Symbolic Link for Docker Compose
+      file:
+        src: /usr/local/bin/docker-compose
+        dest: /usr/bin/docker-compose
+        state: link
+
+    - name: Register Docker Compose Version
+      shell: docker-compose version
+      register: docker_version
+    
+    - debug:
+        msg: Docker Version is {{ docker_version }}
+  when: docker_compose_version is defined
+
+
+
 
 
 
