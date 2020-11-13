@@ -12,7 +12,7 @@
     no_proxy: "*.dan.com,starwars.com"
     docker_compose_version: "1.27.4"
 
-    # insecure_registries: []
-      # - abc.net:8080
-      # - test.com:5000
-      # - fairlady.com:8081
+    insecure_registries: 
+      - abc.net:8080
+      - test.com:5000
+      - fairlady.com:8081
